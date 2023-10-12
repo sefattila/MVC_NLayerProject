@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace MVC_NLayerProject.UI.Models.VMs.UserVMs
 {
-    public class UserRegisterVMs
+    public class UserRegisterVM
     {
         [DisplayName("Kullanıcı Adı")]
         [Required(ErrorMessage = "Kullanıcı Adı Girmek Zorunlu")]
