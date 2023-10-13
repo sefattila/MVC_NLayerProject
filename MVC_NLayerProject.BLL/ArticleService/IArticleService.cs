@@ -16,5 +16,6 @@ namespace MVC_NLayerProject.BLL.ArticleService
         IList<ArticleDTO> GetActives();
         IList<ArticleDTO> GetAll();
         IList<ArticleDTO> CurrentUserArticles(string userId);
+        IList<ArticleDTO> GetArticleBySubjectId(int id);
     }
 }

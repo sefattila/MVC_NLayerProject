@@ -67,6 +67,13 @@ namespace MVC_NLayerProject.BLL.ArticleService
             return articleDTOs;
         }
 
+        public IList<ArticleDTO> GetArticleBySubjectId(int id)
+        {
+            IList<Article> articles = _articleRepository.GetDefaults(x => x.SubjectId == id && x.Status!=Status.Passive);
+            IList<ArticleDTO> articleDTOs=_mapper.Map<IList<ArticleDTO>>(articles);
+            return articleDTOs;
+        }
+
         public ArticleDTO GetById(int id)
         {
             Article article = _articleRepository.GetDefaultById(id);

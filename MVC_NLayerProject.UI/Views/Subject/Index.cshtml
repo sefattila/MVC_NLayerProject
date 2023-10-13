@@ -1,0 +1,23 @@
+﻿@using MVC_NLayerProject.UI.Models.VMs.SubjectVMs;
+
+@model IEnumerable<SubjectVM>
+
+<div class="container col-lg-10">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Konu</th>
+                <th>Makeleleri Görüntüle</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (SubjectVM item in Model)
+            {
+                <tr>
+                    <th>@item.SubjectName</th>
+                    <th><a asp-controller="Subject" asp-action="Articles" asp-route-id="@item.Id">Konu Makaleleri</a></th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

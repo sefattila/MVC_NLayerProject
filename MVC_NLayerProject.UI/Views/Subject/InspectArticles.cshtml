@@ -1,0 +1,19 @@
+﻿@using MVC_NLayerProject.UI.Models.VMs.ArticleVMs;
+@model UserArticleVM
+
+<div class="container col-lg-10">
+    <h1>@Model.Header</h1>
+    <p>Ortalama Okuma Süresi: @Model.AvgReadingTime</p>
+    <p>Yazar: @Model.UserName</p>
+    <p>İçerik:</p>
+    <p>@Model.Content</p>
+    <a asp-controller="Article" asp-action="Index" class="btn btn-outline-success">Makalelere Geri Dön</a>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Article" asp-action="Create" class="btn btn-outline-success">Makale Oluştur</a>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-success">Makale Oluştur</a>
+    }
+</div>

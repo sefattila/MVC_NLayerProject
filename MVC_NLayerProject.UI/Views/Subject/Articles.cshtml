@@ -1,0 +1,31 @@
+﻿@using MVC_NLayerProject.UI.Models.VMs.ArticleVMs;
+
+@model IEnumerable<ArticleVM>
+
+<div class="container col-lg-10">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Başlık</th>
+                <th>Ortalama Okuma Süresi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ArticleVM item in Model)
+            {
+                <tr>
+                    <th><a asp-controller="Subject" asp-action="InspectArticles" asp-route-id="@item.Id">@item.Header</a></th>
+                    <th>@item.AvgReadingTime</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-success">Makale Oluştur</a>
+    }
+    else
+    {
+        <a asp-controller="Article" asp-action="Create" class="btn btn-outline-success">Makale Oluştur</a>
+    }
+</div>
