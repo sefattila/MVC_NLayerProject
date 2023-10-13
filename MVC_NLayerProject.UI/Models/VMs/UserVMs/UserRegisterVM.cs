@@ -6,15 +6,15 @@ namespace MVC_NLayerProject.UI.Models.VMs.UserVMs
     public class UserRegisterVM
     {
         [DisplayName("Kullanıcı Adı")]
-        [Required(ErrorMessage = "Kullanıcı Adı Girmek Zorunlu")]
+        //[Required(ErrorMessage = "Kullanıcı Adı Girmek Zorunlu")]
         public string UserName { get; set; }
         [DisplayName("İsim")]
-        [Required(ErrorMessage = "İsim Yazmak Zorunlu")]
-        [StringLength(10, ErrorMessage = "Max 20 Min 3", MinimumLength = 3)]
+        //[Required(ErrorMessage = "İsim Yazmak Zorunlu")]
+        [StringLength(20, ErrorMessage = "Max 20 Min 3", MinimumLength = 3)]
         public string FirstName { get; set; }
         [DisplayName("Soyisim")]
-        [Required(ErrorMessage = "Soyisim Yazmak Zorunlu")]
-        [StringLength(10, ErrorMessage = "Max 20 Min 3", MinimumLength = 3)]
+        //[Required(ErrorMessage = "Soyisim Yazmak Zorunlu")]
+        [StringLength(20, ErrorMessage = "Max 20 Min 3", MinimumLength = 3)]
         public string LastName { get; set; }
         [DisplayName("Email")]
         [Required]
