@@ -65,6 +65,13 @@ namespace MVC_NLayerProject.BLL.UserService
             return _mapper.Map<UserDTO>(appUser);
         }
 
+        public string GetUserName(string id)
+        {
+            var name = _userRepo.GetDefault(x => x.Id == id);
+            string fullName = name.FirstName + " " + name.LastName;
+            return fullName;
+        }
+
         public bool IsIdExist(string id)
         {
             return _userRepo.Any(x => x.Id == id);
@@ -74,7 +81,7 @@ namespace MVC_NLayerProject.BLL.UserService
         {
             if (userLoginDTO == null)
                 throw new Exception("Login Entity Boş");
-            AppUser appUser = await _userManager.FindByNameAsync(userLoginDTO.UserName);
+            AppUser appUser = await _userManager.FindByEmailAsync(userLoginDTO.Email);
             if (appUser == null)
                 throw new Exception("Böyle Bir Kullanıcı Yok");
             await _signInManager.PasswordSignInAsync(appUser, userLoginDTO.Password, true, false);
@@ -103,3 +110,4 @@ namespace MVC_NLayerProject.BLL.UserService
         }
     }
 }
+

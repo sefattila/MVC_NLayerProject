@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MVC_NLayerProject.BLL.DTOs.ArticleDTOs;
 using MVC_NLayerProject.BLL.DTOs.UserDTOs;
 using MVC_NLayerProject.CORE.Entities;
 using System;
@@ -18,6 +19,11 @@ namespace MVC_NLayerProject.BLL.AutoMapper
             CreateMap<UserRegisterDTO, AppUser>().ReverseMap();
             CreateMap<UserUpdateDTO, AppUser>().ReverseMap();
             CreateMap<UserLoginDTO, AppUser>().ReverseMap();
+
+            //Article Mapping
+            CreateMap<ArticleDTO, Article>().ReverseMap();
+            CreateMap<ArticleCreateDTO, Article>().ReverseMap();
+            CreateMap<ArticleUpdateDTO,Article>().ReverseMap();
         }
     }
 }

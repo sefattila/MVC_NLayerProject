@@ -36,9 +36,19 @@ namespace MVC_NLayerProject.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserRegisterVM userRegisterVM)
         {
+            string[] emailPars = userRegisterVM.Email.Split("@");
+
+            string userName = emailPars[0];
+            userRegisterVM.UserName = "sefa";
+
+            string[] fullName = userName.Split(".");
+            userRegisterVM.FirstName = fullName[0];
+            userRegisterVM.LastName = fullName[1];
+
             if (ModelState.IsValid)
             {
                 UserRegisterDTO userRegisterDTO = _mapper.Map<UserRegisterDTO>(userRegisterVM);
+
                 var result = await _userService.Create(userRegisterDTO, userRegisterVM.Password);
                 if (result.Succeeded)
                 {

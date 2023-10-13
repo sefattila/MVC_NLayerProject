@@ -1,0 +1,26 @@
+﻿@using MVC_NLayerProject.UI.Models.VMs.ArticleVMs;
+
+
+@model ArticleCreateVM
+
+<div class="container col-lg-4">
+    <form asp-action="Create" method="post">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th><label asp-for="Header" class="control-label"></label></th>
+                    <td><input type="text" asp-for="Header" class="form-control" /></td>
+                    <td><span asp-validation-for="Header" class="text-danger"></span></td>
+                </tr>
+                <tr>
+                    <th><label asp-for="Content" class="control-label"></label></th>
+                    <td><textarea asp-for="Content" class="form-control"></textarea></td>
+                    <td><span asp-validation-for="Content" class="text-danger"></span></td>
+                </tr>
+                <tr>
+                    <td><button type="submit" class="btn btn-success">Ekle</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>

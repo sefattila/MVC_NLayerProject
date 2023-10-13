@@ -28,10 +28,11 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Kullanıcılar</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Profilim</a>
                             </li>
-
-
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="CurrentUserArticle">Makalelerim</a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">Çıkış</a>
@@ -49,6 +50,9 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Kayıt Ol</a>
                             </li>
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Index">Makaleler</a>
+                        </li>
                     </ul>
                 </div>
             </div>

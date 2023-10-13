@@ -19,5 +19,6 @@ namespace MVC_NLayerProject.BLL.UserService
         bool IsIdExist(string id);
         IList<UserDTO> GetAll();
         IList<UserDTO> GetActive();
+        string GetUserName(string id);
     }
 }
