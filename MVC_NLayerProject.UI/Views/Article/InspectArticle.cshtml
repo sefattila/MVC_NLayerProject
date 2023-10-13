@@ -8,4 +8,8 @@
     <p>İçerik:</p>
     <p>@Model.Content</p>
     <a asp-controller="Article" asp-action="Index" class="btn btn-outline-success">Makalelere Geri Dön</a>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Article" asp-action="Create" class="btn btn-outline-success">Makale Oluştur</a>
+    }
 </div>

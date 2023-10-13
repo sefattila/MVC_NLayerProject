@@ -7,6 +7,7 @@ using MVC_NLayerProject.BLL.DTOs.SubjectDTOs;
 using MVC_NLayerProject.BLL.DTOs.UserDTOs;
 using MVC_NLayerProject.BLL.SubjectService;
 using MVC_NLayerProject.BLL.UserService;
+using MVC_NLayerProject.CORE.Entities;
 using MVC_NLayerProject.UI.Models.VMs.ArticleVMs;
 using MVC_NLayerProject.UI.Models.VMs.SubjectVMs;
 using MVC_NLayerProject.UI.Models.VMs.UserVMs;
@@ -39,7 +40,7 @@ namespace MVC_NLayerProject.UI.Controllers
             IList<ArticleVM> articleVMs = _mapper.Map<IList<ArticleVM>>(randomArticles);
             return View(articleVMs);
         }
-
+        [Authorize]
         public IActionResult Create()
         {
             IList<SubjectDTO> subjectDTOs = _subjectService.GetActive();
@@ -49,7 +50,7 @@ namespace MVC_NLayerProject.UI.Controllers
             };
             return View(articleCreateVM);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Create(ArticleCreateVM articleCreateVM)
         {
@@ -75,10 +76,12 @@ namespace MVC_NLayerProject.UI.Controllers
             return RedirectToAction("Register", "Account");
         }
         [Authorize]
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
             ArticleDTO articleDTO = _articleService.GetById(id);
+
             IList<SubjectDTO> subjectDTOs = _subjectService.GetActive();
+
             ArticleUpdateVM articleUpdateVM = _mapper.Map<ArticleUpdateVM>(articleDTO);
             articleUpdateVM.Subjects = _mapper.Map<IList<SubjectDTO>, IList<SubjectVM>>(subjectDTOs);
             return View(articleUpdateVM);
@@ -91,6 +94,7 @@ namespace MVC_NLayerProject.UI.Controllers
             UserDTO user=await _userService.GetById(User.FindFirstValue(ClaimTypes.NameIdentifier));
             UserVM userVM=_mapper.Map<UserVM>(user);
             articleUpdateVM.AppUser= userVM;
+            articleUpdateVM.UserId = userVM.Id;
             try
             {
                 ArticleUpdateDTO articleUpdateDTO = _mapper.Map<ArticleUpdateDTO>(articleUpdateVM);

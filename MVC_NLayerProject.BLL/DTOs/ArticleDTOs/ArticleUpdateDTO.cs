@@ -15,6 +15,7 @@ namespace MVC_NLayerProject.BLL.DTOs.ArticleDTOs
         public string Header { get; set; }
         public string Content { get; set; }
         public int SubjectId { get; set; }
+        public string UserId { get; set; }
         public IList<SubjectDTO> Subjects { get; set; }
         public UserDTO AppUser { get; set; }
     }
