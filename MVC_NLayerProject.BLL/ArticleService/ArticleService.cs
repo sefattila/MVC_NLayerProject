@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using MVC_NLayerProject.BLL.DTOs.ArticleDTOs;
 using MVC_NLayerProject.CORE.Entities;
 using MVC_NLayerProject.CORE.Enums;
@@ -15,11 +17,13 @@ namespace MVC_NLayerProject.BLL.ArticleService
     {
         private readonly IArticleRepository _articleRepository;
         private readonly IMapper _mapper;
+        private readonly IAppUserRepository _appUserRepository;
 
-        public ArticleService(IArticleRepository articleRepository, IMapper mapper)
+        public ArticleService(IArticleRepository articleRepository, IMapper mapper, IAppUserRepository appUserRepository)
         {
             _articleRepository = articleRepository;
             _mapper = mapper;
+            _appUserRepository = appUserRepository;
         }
 
         public void Create(ArticleCreateDTO articleCreateDTO)
@@ -28,6 +32,7 @@ namespace MVC_NLayerProject.BLL.ArticleService
                 throw new ArgumentNullException("Eklenecek Makale Bilgisi Yok");
 
             Article article = _mapper.Map<Article>(articleCreateDTO);
+            article.AppUser = _appUserRepository.GetDefault(x => x.Id == article.UserId);
 
             _articleRepository.Create(article);
         }
@@ -36,7 +41,7 @@ namespace MVC_NLayerProject.BLL.ArticleService
         {
             //Kullanıcı Sildiği makaleleride görebilsin
             IList<Article> articles = _articleRepository.FilteredList(x => x.UserId == userId, y => y.OrderBy(m => m.Header));
-            IList<ArticleDTO> articleDTOs=_mapper.Map<IList<ArticleDTO>>(articles);
+            IList<ArticleDTO> articleDTOs = _mapper.Map<IList<ArticleDTO>>(articles);
             return articleDTOs;
         }
 
@@ -73,7 +78,7 @@ namespace MVC_NLayerProject.BLL.ArticleService
         {
             if (articleUpdateDTO == null)
                 throw new ArgumentNullException("Güncellenecek Makale Bilgisi Yok");
-            Article article=_mapper.Map<Article>(articleUpdateDTO);
+            Article article = _mapper.Map<Article>(articleUpdateDTO);
             article.UpdateDate = DateTime.Now;
             article.Status = Status.Modified;
             _articleRepository.Update(article);

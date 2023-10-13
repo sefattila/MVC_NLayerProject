@@ -18,6 +18,10 @@
                     <td><span asp-validation-for="Content" class="text-danger"></span></td>
                 </tr>
                 <tr>
+                    <th><label asp-for="SubjectId"></label></th>
+                    <td><select asp-items="@(new SelectList(Model.Subjects,"Id","SubjectName"))" asp-for="SubjectId" class="form-control"></select></td>
+                </tr>
+                <tr>
                     <td><button type="submit" class="btn btn-success">Ekle</button></td>
                 </tr>
             </tbody>

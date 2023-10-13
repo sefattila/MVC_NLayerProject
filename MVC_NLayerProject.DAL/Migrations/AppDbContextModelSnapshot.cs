@@ -249,7 +249,6 @@ namespace MVC_NLayerProject.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AppUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("AvgReadingTime")
@@ -272,6 +271,9 @@ namespace MVC_NLayerProject.DAL.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
@@ -283,7 +285,61 @@ namespace MVC_NLayerProject.DAL.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Article");
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("MVC_NLayerProject.CORE.Entities.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubjectName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(2023, 10, 13, 15, 22, 45, 772, DateTimeKind.Local).AddTicks(2251),
+                            Status = 0,
+                            SubjectName = "Konu1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(2023, 10, 13, 15, 22, 45, 772, DateTimeKind.Local).AddTicks(2265),
+                            Status = 0,
+                            SubjectName = "Konu2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreateDate = new DateTime(2023, 10, 13, 15, 22, 45, 772, DateTimeKind.Local).AddTicks(2266),
+                            Status = 0,
+                            SubjectName = "Konu3"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -341,14 +397,25 @@ namespace MVC_NLayerProject.DAL.Migrations
                 {
                     b.HasOne("MVC_NLayerProject.CORE.Entities.AppUser", "AppUser")
                         .WithMany("Articles")
-                        .HasForeignKey("AppUserId")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("MVC_NLayerProject.CORE.Entities.Subject", "Subject")
+                        .WithMany("Articles")
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("MVC_NLayerProject.CORE.Entities.AppUser", b =>
+                {
+                    b.Navigation("Articles");
+                });
+
+            modelBuilder.Entity("MVC_NLayerProject.CORE.Entities.Subject", b =>
                 {
                     b.Navigation("Articles");
                 });

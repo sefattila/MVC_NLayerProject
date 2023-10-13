@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVC_NLayerProject.BLL.ArticleService;
+using MVC_NLayerProject.BLL.SubjectService;
 using MVC_NLayerProject.BLL.UserService;
 using MVC_NLayerProject.CORE.Entities;
 using MVC_NLayerProject.CORE.Repositories;
@@ -45,10 +46,12 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddTransient<IAppUserRepository, AppUserRepository>();
 builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
+builder.Services.AddTransient<ISubjectRepository, SubjectRepository>();
 
 //Service
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IArticleService, ArticleService>();
+builder.Services.AddTransient<ISubjectService,SubjectService>();
 
 var app = builder.Build();
 

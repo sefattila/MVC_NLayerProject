@@ -39,7 +39,7 @@ namespace MVC_NLayerProject.UI.Controllers
             string[] emailPars = userRegisterVM.Email.Split("@");
 
             string userName = emailPars[0];
-            userRegisterVM.UserName = "sefa";
+            userRegisterVM.UserName = userName;
 
             string[] fullName = userName.Split(".");
             userRegisterVM.FirstName = fullName[0];

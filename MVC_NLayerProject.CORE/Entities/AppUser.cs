@@ -20,6 +20,6 @@ namespace MVC_NLayerProject.CORE.Entities
         public Status Status { get; set; } = Status.Active;
 
         //Nav Prop
-        public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Article>? Articles { get; set; }
     }
 }

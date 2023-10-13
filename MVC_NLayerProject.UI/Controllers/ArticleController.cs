@@ -3,8 +3,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVC_NLayerProject.BLL.ArticleService;
 using MVC_NLayerProject.BLL.DTOs.ArticleDTOs;
+using MVC_NLayerProject.BLL.DTOs.SubjectDTOs;
+using MVC_NLayerProject.BLL.DTOs.UserDTOs;
+using MVC_NLayerProject.BLL.SubjectService;
 using MVC_NLayerProject.BLL.UserService;
 using MVC_NLayerProject.UI.Models.VMs.ArticleVMs;
+using MVC_NLayerProject.UI.Models.VMs.SubjectVMs;
+using MVC_NLayerProject.UI.Models.VMs.UserVMs;
 using System.Security.Claims;
 
 namespace MVC_NLayerProject.UI.Controllers
@@ -14,24 +19,35 @@ namespace MVC_NLayerProject.UI.Controllers
         private readonly IArticleService _articleService;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly ISubjectService _subjectService;
 
-        public ArticleController(IArticleService articleService, IMapper mapper, IUserService userService)
+        public ArticleController(IArticleService articleService, IMapper mapper, IUserService userService, ISubjectService subjectService)
         {
             _articleService = articleService;
             _mapper = mapper;
             _userService = userService;
+            _subjectService = subjectService;
         }
 
         public IActionResult Index()
         {
-            IList<ArticleDTO> articleDTOs = _articleService.GetActives(); ;
-            IList<ArticleVM> articleVMs = _mapper.Map<IList<ArticleVM>>(articleDTOs);
+            IList<ArticleDTO> articleDTOs = _articleService.GetActives();
+
+            var random = new Random();
+            var randomArticles = articleDTOs.OrderBy(x => random.Next()).Take(20).ToList();
+
+            IList<ArticleVM> articleVMs = _mapper.Map<IList<ArticleVM>>(randomArticles);
             return View(articleVMs);
         }
 
         public IActionResult Create()
         {
-            return View();
+            IList<SubjectDTO> subjectDTOs = _subjectService.GetActive();
+            ArticleCreateVM articleCreateVM = new ArticleCreateVM
+            {
+                Subjects = _mapper.Map<IList<SubjectDTO>,IList<SubjectVM>>(subjectDTOs)
+            };
+            return View(articleCreateVM);
         }
 
         [HttpPost]
@@ -44,7 +60,7 @@ namespace MVC_NLayerProject.UI.Controllers
                     articleCreateVM.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     ArticleCreateDTO articleCreateDTO = _mapper.Map<ArticleCreateDTO>(articleCreateVM);
                     _articleService.Create(articleCreateDTO);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("CurrentUserArticle");
 
                 }
                 catch (ArgumentNullException ex)
@@ -62,14 +78,19 @@ namespace MVC_NLayerProject.UI.Controllers
         public IActionResult Update(int id)
         {
             ArticleDTO articleDTO = _articleService.GetById(id);
+            IList<SubjectDTO> subjectDTOs = _subjectService.GetActive();
             ArticleUpdateVM articleUpdateVM = _mapper.Map<ArticleUpdateVM>(articleDTO);
+            articleUpdateVM.Subjects = _mapper.Map<IList<SubjectDTO>, IList<SubjectVM>>(subjectDTOs);
             return View(articleUpdateVM);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult Update(ArticleUpdateVM articleUpdateVM)
+        public async Task<IActionResult> Update(ArticleUpdateVM articleUpdateVM)
         {
+            UserDTO user=await _userService.GetById(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            UserVM userVM=_mapper.Map<UserVM>(user);
+            articleUpdateVM.AppUser= userVM;
             try
             {
                 ArticleUpdateDTO articleUpdateDTO = _mapper.Map<ArticleUpdateDTO>(articleUpdateVM);
@@ -90,7 +111,7 @@ namespace MVC_NLayerProject.UI.Controllers
         public IActionResult Delete(int id)
         {
             _articleService.Delete(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("CurrentUserArticle");
         }
 
         [Authorize]

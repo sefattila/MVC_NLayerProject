@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using MVC_NLayerProject.BLL.DTOs.ArticleDTOs;
+using MVC_NLayerProject.BLL.DTOs.SubjectDTOs;
 using MVC_NLayerProject.BLL.DTOs.UserDTOs;
 using MVC_NLayerProject.UI.Models.VMs.ArticleVMs;
+using MVC_NLayerProject.UI.Models.VMs.SubjectVMs;
 using MVC_NLayerProject.UI.Models.VMs.UserVMs;
 
 namespace MVC_NLayerProject.UI.AutoMapper
@@ -25,6 +27,9 @@ namespace MVC_NLayerProject.UI.AutoMapper
                 .ForMember(dest => dest.AvgReadingTime, opt => opt.Ignore())
                 .ForMember(dest=>dest.UserId,opt=>opt.Ignore())
                 .ReverseMap();
+
+            //Subject
+            CreateMap<SubjectVM, SubjectDTO>().ReverseMap();
         }
     }
 }
